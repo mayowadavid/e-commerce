@@ -1,0 +1,108 @@
+import React, { useState, useEffect } from "react";
+import Slider from "react-slick";
+import ProductDetails from './ProductDetails';
+import ProductTabs from './ProductTabs';
+import QualityControl from './QualityControl';
+import data from './data';
+
+
+const ProductSingle = () => {
+  
+    
+      const [nav1, setNav1]  = useState(null);
+      const [nav2, setNav2]  = useState(null);
+
+
+  
+
+  const useEffect = ()=> {
+    setNav1(slider1);
+    setNav2(slider2);
+  }
+    
+   const images = data.images;
+   
+
+   const singleThumbList =  images.length ? (
+        images.map(image => {
+                    return(
+                            <div key={image.id}><img id="bigprev" src={image.product}  alt=""/></div>       
+                    ) }
+        )): (<p>You have no products images</p>);
+
+    const singleProductList =  images.length ? (
+          images.map(image => {
+                      return(
+                              <div key={image.id}><img id="e-product" src={image.product}  alt=""/></div>      
+                      ) }
+          )): (<p>You have no products images</p>);
+
+
+
+      const  relatedProduct =  images.length ? (
+          images.map(image => {
+                      return(
+                              <div className="related-card" key={image.id}>
+                                  <img src={image.product}  alt=""/>
+                                  <div className="trapped">
+                                      <h5>Title</h5>
+                                      <h5>price</h5>
+                                  </div>
+                                  
+                              </div>       
+                      ) }
+          )): (<p>You have no products images</p>);
+
+ 
+    
+    const settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3.5,
+      slidesToScroll: 1,
+      centerMode: true,
+      centerPadding: '132px',
+    };
+    return (
+            <div>
+              <div className="product-detail">
+                <div className="row">
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xl-6">
+                      <Slider
+                      asNavFor={nav2}
+                        ref={slider => (slider1 = slider)}
+                        fade={true}
+                      >
+                          {singleThumbList}
+                      </Slider>
+                      <Slider
+                      asNavFor={nav1}
+                        ref={slider => (slider2 = slider)}
+                        slidesToShow={3}
+                        swipeToSlide={true}
+                        focusOnSelect={true}
+                        centerMode={true}
+                        >  
+                           {singleProductList}
+                      </Slider>
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xl-6">
+                    <ProductDetails/>
+                  </div>
+                </div>
+              </div>
+                <QualityControl/>
+                <ProductTabs/>
+            
+              <div className="related-wrapper">
+                <h3>Related Product</h3>
+                  <Slider {...settings}>
+                  {relatedProduct}
+                  </Slider>
+              </div>
+            </div>
+    );
+}
+
+export default ProductSingle;
